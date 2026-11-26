@@ -54,15 +54,16 @@
 
 提交并推送后，**不点击手动部署**，观察这次 `push` 自动触发一次新的运行；成功后刷新网站确认新文字已出现（可强制刷新或用无痕窗口排除缓存）。
 
-- 对应提交链接：<在此填写第二次提交的链接>
-- 对应 Actions 运行链接：<在此填写第二次运行链接>
+- 对应提交链接：https://github.com/wudanzhangsanfeng/my-docs/commit/333db854669b554907b3d0268655067d6075b4c6
+- 对应 Actions 运行链接：https://github.com/wudanzhangsanfeng/my-docs/actions/runs/45749344014
 
 ![第二次 push 触发的成功运行](images/07-second-run.png)
 
 ## 3. 问题与解决
 
 - **本机 `python` 命令不可用**：Windows 自带的 `python.exe` 是个打不开的商店占位程序。解决方式是改用 `py` 启动器（`py -3 -m venv .venv` 等），工作流中仍使用 `python`，因为 CI 的 `setup-python` 会提供可用的 `python`。
-- **首次检查日志**：核对过 `build` 的「Install dependencies」「Build documentation」日志，确认 `mkdocs build --strict` 无警告；`deploy` 日志确认 artifact 上传与 Pages 发布成功。
+- **首次推送的运行失败**：第一次 `git push` 时仓库尚未在 `Settings` → `Pages` 中把 `Source` 设为 GitHub Actions，构建设置缺失导致运行失败。启用 Pages（`Source = GitHub Actions`）后，在 Actions 页面重新运行该次工作流（Re-run all jobs），`build` 与 `deploy` 均成功，网站随即上线。
+- **检查日志**：核对过 `build` 的「Install dependencies」「Build documentation」日志，确认 `mkdocs build --strict` 无警告；`deploy` 日志确认 artifact 上传与 Pages 发布成功。
 
 ## 4. 原理理解
 
